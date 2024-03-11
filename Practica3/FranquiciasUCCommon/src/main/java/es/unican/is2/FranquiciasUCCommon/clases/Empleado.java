@@ -37,8 +37,31 @@ public class Empleado {
 	 * Retorna el sueldo bruto del empleado
 	 */
 	public double sueldoBruto() {
-		// TODO
-		return 0;
+		double sueldo = 0;
+		Categoria categoria = getCategoria();
+		if (categoria.equals(Categoria.ENCARGADO)){
+			sueldo = 2000;
+		} else if (categoria.equals(Categoria.VENDEDOR)){
+			sueldo = 1500;
+		} else if (categoria.equals(Categoria.AUXILIAR)){
+			sueldo = 1000;
+		}
+		
+		LocalDate fechaContratacion = getFechaContratacion();
+		LocalDate fechaActual = LocalDate.now();
+		if(fechaContratacion.isBefore(fechaActual.minusYears(5))){
+			sueldo = sueldo + 50;
+		}else if (fechaContratacion.isBefore(fechaActual.minusYears(10))) {
+			sueldo = sueldo + 100;
+		} else if (fechaContratacion.isBefore(fechaActual.minusYears(20))){
+			sueldo = sueldo + 200;
+		}
+		
+		if (getBaja()) {
+			sueldo = sueldo * 0.75;
+		}
+		
+		return sueldo;
 	}
 	
 	/** 

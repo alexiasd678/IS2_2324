@@ -3,14 +3,18 @@ package es.unican.is2.FranquiciasUCBusiness;
 import es.unican.is2.FranquiciasUCCommon.clases.DataAccessException;
 import es.unican.is2.FranquiciasUCCommon.clases.Empleado;
 import es.unican.is2.FranquiciasUCCommon.clases.OperacionNoValidaException;
+import es.unican.is2.FranquiciasUCCommon.clases.Tienda;
 import es.unican.is2.FranquiciasUCCommon.interfaces.IEmpleadosDAO;
 import es.unican.is2.FranquiciasUCCommon.interfaces.IGestionEmpleados;
 import es.unican.is2.FranquiciasUCCommon.interfaces.ITiendasDAO;
 
 public class GestionEmpleados implements IGestionEmpleados{
-
+	
+	private IEmpleadosDAO empleados;
+	private ITiendasDAO tiendas;
 	public GestionEmpleados(ITiendasDAO tiendasDAO, IEmpleadosDAO empleadosDAO) {
-		// TODO Auto-generated constructor stub
+		this.empleados = empleadosDAO;
+		this.tiendas = tiendasDAO;
 	}
 
 	/**
@@ -23,7 +27,16 @@ public class GestionEmpleados implements IGestionEmpleados{
 	 * @throws DataAccessException Si hay un error en el acceso a los datos
 	 */
 	public Empleado nuevoEmpleado(Empleado e, String nombre) throws OperacionNoValidaException, DataAccessException {
-		return null;
+		Tienda t = tiendas.tiendaPorNombre(nombre);
+		if (t == null) {
+			return null;
+		}
+		Empleado empleado = empleados.crearEmpleado(e);
+		if (empleado == null) {
+			throw new OperacionNoValidaException("No se pueden crear dos empleados con el mismo dni");
+		}
+		t.getEmpleados().add(empleado);
+		return empleado;
 	}
 
 	/**
@@ -36,7 +49,19 @@ public class GestionEmpleados implements IGestionEmpleados{
 	 * @throws DataAccessException Si hay un error en el acceso a los datos
 	 */
 	public Empleado eliminarEmpleado(String dni, String nombre) throws OperacionNoValidaException, DataAccessException {
-		return null;
+		Tienda t = tiendas.tiendaPorNombre(nombre);
+		if (t == null) {
+			return null;
+		}
+		if (t.buscaEmpleado(dni) == null) {
+			throw new OperacionNoValidaException("El empleado no pertenece a la tienda indicada");
+		}
+		Empleado empleado = empleados.eliminarEmpleado(dni);
+		t.getEmpleados().remove(empleado);
+		if (empleado == null) {
+			return null;
+		}
+		return empleado;
 	}
 
 	/**
@@ -52,7 +77,26 @@ public class GestionEmpleados implements IGestionEmpleados{
 	 */
 	public boolean trasladarEmpleado(String dni, String actual, String destino)
 			throws OperacionNoValidaException, DataAccessException {
-		return false;
+		Empleado e = empleados.empleado(dni);
+		if (e == null) {
+			return false;
+		}
+		Tienda ta = tiendas.tiendaPorNombre(actual);
+		if (ta == null) {
+			return false;
+		}
+		Tienda td = tiendas.tiendaPorNombre(destino);
+		if (td == null) {
+			return false;
+		}
+		if (ta.buscaEmpleado(dni) == null) {
+			throw new OperacionNoValidaException("El empleado no pertenece a la tienda actual");
+		}
+		if (td.getEmpleados().add(e) && ta.getEmpleados().remove(e)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	/**
@@ -63,6 +107,7 @@ public class GestionEmpleados implements IGestionEmpleados{
 	 * @throws DataAccessException Si hay un error en el acceso a los datos
 	 */
 	public Empleado empleado(String dni) throws DataAccessException {
-		return null;
+		Empleado e = empleados.empleado(dni);
+		return e;
 	}
 }

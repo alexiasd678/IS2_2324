@@ -7,9 +7,10 @@ import es.unican.is2.FranquiciasUCCommon.interfaces.IGestionTiendas;
 import es.unican.is2.FranquiciasUCCommon.interfaces.ITiendasDAO;
 
 public class GestionTiendas implements IGestionTiendas{
-
+	
+	private ITiendasDAO tiendas;
 	public GestionTiendas(ITiendasDAO tiendasDAO) {
-		// TODO Auto-generated constructor stub
+		this.tiendas = tiendasDAO;
 	}
 
 	/**
@@ -20,7 +21,11 @@ public class GestionTiendas implements IGestionTiendas{
 	 * @throws DataAccessException Si hay un error en el acceso a los datos
 	 */
 	public Tienda nuevaTienda(Tienda t) throws DataAccessException {
-		return null;
+		if (tiendas.tiendas().contains(t)){
+			return null;
+		}
+		Tienda nuevaTienda = tiendas.crearTienda(t);
+		return nuevaTienda;
 	}
 
 	/**
@@ -32,7 +37,18 @@ public class GestionTiendas implements IGestionTiendas{
 	 * @throws DataAccessException Si hay un error en el acceso a los datos
 	 */
 	public Tienda eliminarTienda(String nombre) throws OperacionNoValidaException, DataAccessException {
-		return null;
+		Tienda t = tienda(nombre);
+		if (t == null) {
+			throw new DataAccessException();
+		}
+		if (!tiendas.tiendas().contains(t)) {
+			return null;
+		}
+		if (t.getEmpleados().isEmpty()) {
+			throw new OperacionNoValidaException("La tienda no tiene empleados");
+		}
+		tiendas.eliminarTienda(t.getId());
+		return t;
 	}
 
 	/**
@@ -43,6 +59,7 @@ public class GestionTiendas implements IGestionTiendas{
 	 * @throws DataAccessException Si hay un error en el acceso a los datos
 	 */
 	public Tienda tienda(String nombre) throws DataAccessException {
-		return null;
+		Tienda t = tiendas.tiendaPorNombre(nombre);
+		return t;
 	}
 }
