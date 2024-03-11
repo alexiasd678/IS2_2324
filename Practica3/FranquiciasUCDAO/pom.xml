@@ -3,6 +3,10 @@
   <groupId>es.unican.is2</groupId>
   <artifactId>FranquiciasUCDAO</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <properties>
+	  <maven.compiler.source>21</maven.compiler.source>
+	  <maven.compiler.target>21</maven.compiler.target>
+  </properties>
   
   <dependencies>
 	  <dependency>
@@ -11,4 +15,13 @@
 		  <version>0.0.1-SNAPSHOT</version>
 	  </dependency>
   </dependencies>
+  <build>
+	  <plugins>
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-jar-plugin</artifactId>
+			  <version>3.3.0</version>
+		  </plugin>
+	  </plugins>
+  </build>
 </project>
