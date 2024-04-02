@@ -14,7 +14,7 @@ public class Empleado {
 	private String nombre;
 	private Categoria categoria;
 	private LocalDate fechaContratacion;
-	private boolean baja = false;
+	private boolean baja;
 	
 	public Empleado() {	}
 	
@@ -26,35 +26,52 @@ public class Empleado {
 	 * @param categoria
 	 * @param fechaContratacion
 	 */
-	public Empleado(String DNI, String nombre, Categoria categoria, LocalDate fechaContratacion) {
+	public Empleado(String DNI, String nombre, Categoria categoria, LocalDate fechaContratacion) throws FechaIncorrectaException {
 		this.nombre = nombre;
+		if(this.nombre == null) {
+			throw new NullPointerException();
+		}
 		this.DNI=DNI;
+		if(this.DNI == null) {
+			throw new NullPointerException();
+		}
 		this.categoria=categoria;
+		if(this.categoria == null) {
+			throw new NullPointerException();
+		}
 		this.fechaContratacion=fechaContratacion;
+		if(this.fechaContratacion.isAfter(LocalDate.now())) {
+			throw new FechaIncorrectaException("La fecha de contratacion no debe ser posterior a hoy");
+		}
+		this.baja = false;
 	}
 	
 	/**
 	 * Retorna el sueldo bruto del empleado
 	 */
-	public double sueldoBruto() {
+	public double sueldoBruto() throws FechaIncorrectaException {
 		double sueldo = 0;
 		Categoria categoria = getCategoria();
 		if (categoria.equals(Categoria.ENCARGADO)){
 			sueldo = 2000;
 		} else if (categoria.equals(Categoria.VENDEDOR)){
 			sueldo = 1500;
-		} else if (categoria.equals(Categoria.AUXILIAR)){
+		} else {
 			sueldo = 1000;
 		}
 		
 		LocalDate fechaContratacion = getFechaContratacion();
 		LocalDate fechaActual = LocalDate.now();
-		if(fechaContratacion.isBefore(fechaActual.minusYears(5))){
-			sueldo = sueldo + 50;
+		if(fechaContratacion.isAfter(fechaActual)) {
+			throw new FechaIncorrectaException("La fecha de contratacion no es"
+					+ " valida, no debe ser mayor a la fecha actual");
+		}
+		if(fechaContratacion.isBefore(fechaActual.minusYears(20))){
+			sueldo = sueldo + 200;
 		}else if (fechaContratacion.isBefore(fechaActual.minusYears(10))) {
 			sueldo = sueldo + 100;
-		} else if (fechaContratacion.isBefore(fechaActual.minusYears(20))){
-			sueldo = sueldo + 200;
+		} else if (fechaContratacion.isBefore(fechaActual.minusYears(5))){
+			sueldo = sueldo + 50;
 		}
 		
 		if (getBaja()) {

@@ -28,7 +28,13 @@ public class Tienda implements Serializable {
 	 */
 	public Tienda(String nombre, String direccion) {
 		this.nombre=nombre;
+		if (this.nombre == null) {
+			throw new NullPointerException();
+		}
 		this.direccion= direccion;
+		if (this.direccion == null) {
+			throw new NullPointerException();
+		}
 	}
 	
 
@@ -36,8 +42,9 @@ public class Tienda implements Serializable {
 	 * Retorna el gasto mensual de la tienda en 
 	 * pagar sueldos de sus empleados.
 	 * @return Total mensual sueldos 
+	 * @throws FechaIncorrectaException 
 	 */
-	public double gastoMensualSueldos() {
+	public double gastoMensualSueldos() throws FechaIncorrectaException{
 		double total = 0.0;
 		for (Empleado e:empleados) {
 			total+=e.sueldoBruto();

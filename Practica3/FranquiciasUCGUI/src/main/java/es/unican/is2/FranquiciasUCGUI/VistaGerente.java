@@ -17,6 +17,7 @@ import javax.swing.border.LineBorder;
 
 import es.unican.is2.FranquiciasUCCommon.clases.DataAccessException;
 import es.unican.is2.FranquiciasUCCommon.clases.Empleado;
+import es.unican.is2.FranquiciasUCCommon.clases.FechaIncorrectaException;
 import es.unican.is2.FranquiciasUCCommon.clases.Tienda;
 import es.unican.is2.FranquiciasUCCommon.interfaces.IGestionEmpleados;
 import es.unican.is2.FranquiciasUCCommon.interfaces.IGestionTiendas;
@@ -29,7 +30,7 @@ import javax.swing.JButton;
  * presentacion de la aplicacion usando Swing
  */
 @SuppressWarnings("serial")
-public class VistaGerente extends JFrame {
+public class VistaGerente extends JFrame{
 
 	private JPanel contentPane;
 	private JTextField txtNombreTienda;
@@ -98,7 +99,7 @@ public class VistaGerente extends JFrame {
 		txtNombreTienda.setBounds(10, 51, 113, 20);
 		contentPane.add(txtNombreTienda);
 		txtNombreTienda.setColumns(10);
-		txtNombreTienda.setName("txtDireccionTienda");
+		txtNombreTienda.setName("txtNombreTienda");
 
 		JLabel lblNombreTienda = new JLabel("Nombre Tienda");
 		lblNombreTienda.setBounds(21, 27, 139, 14);
@@ -108,7 +109,7 @@ public class VistaGerente extends JFrame {
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				rellenaDatosTienda(txtNombreTienda.getText());
+				rellenaDatosTienda(txtNombreTienda.getText());	
 			}
 		});
 		btnBuscar.setBounds(21, 122, 89, 23);
@@ -118,23 +119,23 @@ public class VistaGerente extends JFrame {
 	}
 	
 	
-	private void rellenaDatosTienda(String nombre) {
+	private void rellenaDatosTienda(String nombre){
 		try {
-		Tienda t = tiendas.tienda(nombre);
-		if (t != null) {
-			txtDireccionTienda.setText(t.getNombre());
-			txtTotalSueldos.setText(Double.toString(t.gastoMensualSueldos()));
-			listModel.removeAllElements();
-			for (int i = 0; i < t.getEmpleados().size()-1; i++) {
-				Empleado e = t.getEmpleados().get(i);
-				listModel.addElement(e.getNombre());
+			Tienda t = tiendas.tienda(nombre);
+			if (t != null) {
+				txtDireccionTienda.setText(t.getDireccion());
+				txtTotalSueldos.setText(Double.toString(t.gastoMensualSueldos()));
+				listModel.removeAllElements();
+				for (int i = 0; i < t.getEmpleados().size(); i++) {
+					Empleado e = t.getEmpleados().get(i);
+					listModel.addElement(e.getNombre());
+				}
+			} else {
+				txtDireccionTienda.setText("Tienda no existe");
+				txtTotalSueldos.setText("");
+				listModel.removeAllElements();
 			}
-		} else {
-			txtDireccionTienda.setText("Tienda no existe");
-			txtTotalSueldos.setText("");
-			listModel.removeAllElements();
-		}
-		}catch (DataAccessException e) {
+		}catch (DataAccessException | FechaIncorrectaException e) {
 			txtDireccionTienda.setText("Error acceso a datos");
 			txtTotalSueldos.setText("");
 			listModel.removeAllElements();

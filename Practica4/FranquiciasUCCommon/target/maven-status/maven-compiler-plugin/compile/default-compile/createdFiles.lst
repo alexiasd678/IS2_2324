@@ -1,0 +1,10 @@
+es\unican\is2\FranquiciasUCCommon\clases\OperacionNoValidaException.class
+es\unican\is2\FranquiciasUCCommon\clases\Tienda.class
+es\unican\is2\FranquiciasUCCommon\interfaces\IGestionTiendas.class
+es\unican\is2\FranquiciasUCCommon\interfaces\IEmpleadosDAO.class
+es\unican\is2\FranquiciasUCCommon\interfaces\IGestionEmpleados.class
+es\unican\is2\FranquiciasUCCommon\interfaces\ITiendasDAO.class
+es\unican\is2\FranquiciasUCCommon\clases\Categoria.class
+es\unican\is2\FranquiciasUCCommon\clases\Empleado.class
+es\unican\is2\FranquiciasUCCommon\clases\DataAccessException.class
+es\unican\is2\FranquiciasUCCommon\interfaces\IGestionAltasBajas.class
