@@ -10,6 +10,7 @@ import es.unican.is2.FranquiciasUC.ListaOrdenadaAcotada.ListaOrdenadaAcotada;
 class ListaOrdenadaAcotadaTest2 {
 	
 	private ListaOrdenadaAcotada<String> lista;
+	private ListaOrdenadaAcotada<String> lista1;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -175,6 +176,27 @@ class ListaOrdenadaAcotadaTest2 {
 		lista.clear();
 		assertEquals(0, lista.size());
 		
+	}
+	
+	@Test
+	void constructorTest() {
+		
+		String elemento1 = "elemento1"; String elemento2 = "elemento2";
+		String elemento3 = "elemento3"; String elemento4 = "elemento4";
+		String elemento5 = "elemento5"; String elemento6 = "elemento6";
+		
+		// Casos de prueba validos
+		lista1 = new ListaOrdenadaAcotada<String>(5);
+		assertDoesNotThrow(() ->	lista1.add(elemento1));
+		assertDoesNotThrow(() ->	lista1.add(elemento2));
+		assertDoesNotThrow(() ->	lista1.add(elemento3));
+		assertDoesNotThrow(() ->	lista1.add(elemento4));
+		assertDoesNotThrow(() ->	lista1.add(elemento5));
+		
+		assertThrows(IllegalStateException.class, () -> lista1.add(elemento6));
+		
+		// Casos de prueba no validos 
+		assertThrows(NegativeArraySizeException.class, () -> lista1 = new ListaOrdenadaAcotada<String>(-1));
 	}
 
 }
