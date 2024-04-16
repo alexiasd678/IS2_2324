@@ -51,7 +51,13 @@ public class Empleado {
 	 */
 	public double sueldoBruto() throws FechaIncorrectaException {
 		double sueldo = 0;
+		
 		Categoria categoria = getCategoria();
+		LocalDate fechaContratacion = getFechaContratacion();
+		if (categoria == null || fechaContratacion == null) {
+			throw new NullPointerException();
+		}
+		
 		if (categoria.equals(Categoria.ENCARGADO)){
 			sueldo = 2000;
 		} else if (categoria.equals(Categoria.VENDEDOR)){
@@ -60,12 +66,12 @@ public class Empleado {
 			sueldo = 1000;
 		}
 		
-		LocalDate fechaContratacion = getFechaContratacion();
 		LocalDate fechaActual = LocalDate.now();
 		if(fechaContratacion.isAfter(fechaActual)) {
 			throw new FechaIncorrectaException("La fecha de contratacion no es"
 					+ " valida, no debe ser mayor a la fecha actual");
 		}
+		
 		if(fechaContratacion.isBefore(fechaActual.minusYears(20))){
 			sueldo = sueldo + 200;
 		}else if (fechaContratacion.isBefore(fechaActual.minusYears(10))) {

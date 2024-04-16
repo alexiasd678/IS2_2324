@@ -5,10 +5,11 @@ import es.unican.is2.FranquiciasUCCommon.clases.Empleado;
 import es.unican.is2.FranquiciasUCCommon.clases.OperacionNoValidaException;
 import es.unican.is2.FranquiciasUCCommon.clases.Tienda;
 import es.unican.is2.FranquiciasUCCommon.interfaces.IEmpleadosDAO;
+import es.unican.is2.FranquiciasUCCommon.interfaces.IGestionAltasBajas;
 import es.unican.is2.FranquiciasUCCommon.interfaces.IGestionEmpleados;
 import es.unican.is2.FranquiciasUCCommon.interfaces.ITiendasDAO;
 
-public class GestionEmpleados implements IGestionEmpleados{
+public class GestionEmpleados implements IGestionEmpleados, IGestionAltasBajas{
 	
 	private IEmpleadosDAO empleados;
 	private ITiendasDAO tiendas;
@@ -36,6 +37,7 @@ public class GestionEmpleados implements IGestionEmpleados{
 			throw new OperacionNoValidaException("No se pueden crear dos empleados con el mismo dni");
 		}
 		t.getEmpleados().add(empleado);
+		tiendas.modificarTienda(t);
 		return empleado;
 	}
 
@@ -61,6 +63,7 @@ public class GestionEmpleados implements IGestionEmpleados{
 		if (empleado == null) {
 			return null;
 		}
+		tiendas.modificarTienda(t);
 		return empleado;
 	}
 
@@ -93,6 +96,8 @@ public class GestionEmpleados implements IGestionEmpleados{
 			throw new OperacionNoValidaException("El empleado no pertenece a la tienda actual");
 		}
 		if (td.getEmpleados().add(e) && ta.getEmpleados().remove(e)) {
+			tiendas.modificarTienda(ta);
+			tiendas.modificarTienda(td);
 			return true;
 		}else {
 			return false;
@@ -109,5 +114,41 @@ public class GestionEmpleados implements IGestionEmpleados{
 	public Empleado empleado(String dni) throws DataAccessException {
 		Empleado e = empleados.empleado(dni);
 		return e;
+	}
+
+	@Override
+	/**
+	 * Registrar la baja medica de un empleado
+	 * @param dni DNI del empleado
+	 * @return true si lo da de baja 
+	 *         false si no existe el empleado
+	 * @throws DataAccessException Si hay un error en el acceso a los datos
+	 */
+	public boolean bajaMedica(String dni) throws DataAccessException {
+		Empleado e = empleados.empleado(dni);
+		if (e == null) {
+			return false;
+		}
+		e.darDeBaja();
+		empleados.modificarEmpleado(e);
+		return true;
+	}
+
+	@Override
+	/**
+	 * Registrar el alta medica de un empleado
+	 * @param dni DNI del empleado
+	 * @return true si lo da de alta 
+	 *         false si no existe el empleado
+	 * @throws DataAccessException Si hay un error en el acceso a los datos
+	 */
+	public boolean altaMedica(String dni) throws DataAccessException {
+		Empleado e = empleados.empleado(dni);
+		if (e == null) {
+			return false;
+		}
+		e.darDeAlta();
+		empleados.modificarEmpleado(e);
+		return true;
 	}
 }

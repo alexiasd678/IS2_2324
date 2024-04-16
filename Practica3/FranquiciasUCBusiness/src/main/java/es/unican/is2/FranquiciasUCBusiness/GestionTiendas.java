@@ -38,9 +38,6 @@ public class GestionTiendas implements IGestionTiendas{
 	 */
 	public Tienda eliminarTienda(String nombre) throws OperacionNoValidaException, DataAccessException {
 		Tienda t = tienda(nombre);
-		if (t == null) {
-			throw new DataAccessException();
-		}
 		if (!tiendas.tiendas().contains(t)) {
 			return null;
 		}
@@ -60,6 +57,9 @@ public class GestionTiendas implements IGestionTiendas{
 	 */
 	public Tienda tienda(String nombre) throws DataAccessException {
 		Tienda t = tiendas.tiendaPorNombre(nombre);
+		if (t == null) {
+			return null;
+		}
 		return t;
 	}
 }

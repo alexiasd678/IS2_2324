@@ -2,12 +2,12 @@ package es.unican.is2.FranquiciasUCListaOrdenadaAcotada;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import es.unican.is2.FranquiciasUC.ListaOrdenadaAcotada.ListaOrdenadaAcotada;
+import es.unican.is2.listaOrdenadaAcotada.ListaOrdenadaAcotada;
 
-
-class ListaOrdenadaAcotadaTest2 {
+class ListaOrdenadaAcotadaTestParaJAR {
 	
 	private ListaOrdenadaAcotada<String> lista;
 	private ListaOrdenadaAcotada<String> lista1;
@@ -58,7 +58,7 @@ class ListaOrdenadaAcotadaTest2 {
 		String elemento5 = "elemento5"; String elemento6 = "elemento6";
 		String elemento7 = "elemento7"; String elemento8 = "elemento8";
 		String elemento9 = "elemento8"; String elemento10 = "elmento10";
-		String elemento11 = "elemento11";
+		String elemento11 = "elemento11";	
 		
 		// Casos de prueba validos				
 		lista.add(elemento1);
