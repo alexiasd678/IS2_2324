@@ -1,7 +1,6 @@
-package es.unican.is2.GestionDeVentasTienda;
+package es.unican.is.GestionDeVentasTiendaRefact;
 public class vendedorEnPracticas extends Vendedor {
 	
-	private String dni;
 	
 	/**
 	 * Retorna un nuevo vendedor en practicas
@@ -9,19 +8,14 @@ public class vendedorEnPracticas extends Vendedor {
 	 * @param dni
 	 */
 	public vendedorEnPracticas(String nombre, String id, String dni) {		// WMC +1
-		super(nombre, id);
-		this.dni= dni;
+		super(nombre, id, dni);
 	}
 	
-	public String getDni() {		// WMC +1
-		return dni;
-	}
-
 	@Override
 	public boolean equals(Object obj) {		// WMC +1
 		if (!(obj instanceof vendedorEnPracticas)) 	// WMC +1 // CCog +1
 			return false;
 		vendedorEnPracticas v = (vendedorEnPracticas) obj;
-		return (v.getId().equals(getId()) && v.getDni().equals(getDni()));
+		return (v.getId().equals(getId()) && v.getDNI().equals(getDNI()));
 	}
 }
