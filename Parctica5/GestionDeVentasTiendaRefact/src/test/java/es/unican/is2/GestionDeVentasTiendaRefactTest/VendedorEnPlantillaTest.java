@@ -1,4 +1,4 @@
-package es.unican.is2.GestionDeVentasTiendaTest;
+package es.unican.is2.GestionDeVentasTiendaRefactTest;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import es.unican.is2.GestionDeVentasTienda.TipoVendedor;
-import es.unican.is2.GestionDeVentasTienda.VendedorEnPlantilla;
+import es.unican.is.GestionDeVentasTiendaRefact.TipoVendedor;
+import es.unican.is.GestionDeVentasTiendaRefact.VendedorEnPlantilla;
 
 
 
@@ -28,10 +28,10 @@ public class VendedorEnPlantillaTest {
 	@Test
 	public void testConstructor() {
 		assertEquals(sutJunior.getId(), "1");
-		assertEquals(sutJunior.dni(), "11111111A");
+		assertEquals(sutJunior.getDNI(), "11111111A");
 		assertEquals(sutJunior.getNombre(), "Ana");
 		assertTrue(sutJunior.getTotalVentas()==0.0);
-		assertTrue(sutJunior.getC()==0.0);
+		assertTrue(sutJunior.getComision()==0.0);
 		assertEquals(sutJunior.tipo(), TipoVendedor.Junior);
 		assertEquals(sutSenior.tipo(), TipoVendedor.Senior);
 		
@@ -40,18 +40,18 @@ public class VendedorEnPlantillaTest {
 	@Test
 	public void testAnhadeVenta() {
 	
-		sutJunior.anhade(200);
+		sutJunior.anhadeVenta(200);
 		assertEquals(sutJunior.getTotalVentas(), 200, 0);
-		sutJunior.anhade(300);
+		sutJunior.anhadeVenta(300);
 		assertEquals(sutJunior.getTotalVentas(), 500, 0);
-		sutJunior.anhade(0);
+		sutJunior.anhadeVenta(0);
 		assertEquals(sutJunior.getTotalVentas(), 500, 0);
 		
-		sutSenior.anhade(300);
+		sutSenior.anhadeVenta(300);
 		assertEquals(sutSenior.getTotalVentas(), 300, 0);
-		sutSenior.anhade(300);
+		sutSenior.anhadeVenta(300);
 		assertEquals(sutSenior.getTotalVentas(), 600, 0);
-		sutSenior.anhade(0);
+		sutSenior.anhadeVenta(0);
 		assertEquals(sutSenior.getTotalVentas(), 600, 0);
 		
 	}
@@ -78,19 +78,19 @@ public class VendedorEnPlantillaTest {
 	@Test
 	public void testSetComision() {
 		
-		sutJunior.setC(2000);
-		assertEquals(sutJunior.getC(), 2000, 0);	
-		sutJunior.setC(4000);
-		assertEquals(sutJunior.getC(), 4000, 0);	
-		sutJunior.setC(0);
-		assertEquals(sutJunior.getC(), 0, 0);
+		sutJunior.setComision(2000);
+		assertEquals(sutJunior.getComision(), 2000, 0);	
+		sutJunior.setComision(4000);
+		assertEquals(sutJunior.getComision(), 4000, 0);	
+		sutJunior.setComision(0);
+		assertEquals(sutJunior.getComision(), 0, 0);
 		
-		sutSenior.setC(4500);
-		assertEquals(sutSenior.getC(), 4500, 0);		
-		sutSenior.setC(4000);
-		assertEquals(sutSenior.getC(), 4000, 0);
-		sutJunior.setC(0);
-		assertEquals(sutJunior.getC(), 0, 0);	
+		sutSenior.setComision(4500);
+		assertEquals(sutSenior.getComision(), 4500, 0);		
+		sutSenior.setComision(4000);
+		assertEquals(sutSenior.getComision(), 4000, 0);
+		sutJunior.setComision(0);
+		assertEquals(sutJunior.getComision(), 0, 0);	
 		
 	}
 

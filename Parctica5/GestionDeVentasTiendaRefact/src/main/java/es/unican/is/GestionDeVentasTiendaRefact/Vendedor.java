@@ -12,7 +12,7 @@ public abstract class Vendedor {
 	private double totalVentas;
 	private String dni;
 	
-	public Vendedor(String nombre, String id, String dni) {		// WMC +1
+	public Vendedor(String nombre, String id, String dni) {		
 		this.nombre = nombre;
 		this.id = id;
 		this.dni = dni;
@@ -22,7 +22,7 @@ public abstract class Vendedor {
 	 * Retorna el nombre del vendedor
 	 * @return nombre
 	 */
-	public String getNombre() {		// WMC +1
+	public String getNombre() {		
 		return nombre;
 	}
 	
@@ -30,7 +30,7 @@ public abstract class Vendedor {
 	 * Retorna el id del vendedor
 	 * @return id
 	 */
-	public String getId() {		// WMC +1
+	public String getId() {		
 		return id;
 	}
 	
@@ -46,7 +46,7 @@ public abstract class Vendedor {
 	 * Retorna la comision mensual acumulada
 	 * @return Comision total acumulada
 	 */
-	public double getComision() {		// WMC +1
+	public double getComision() {		
 		return comision;
 	}
 	
@@ -54,7 +54,7 @@ public abstract class Vendedor {
 	 * Asigna valor a la comision mensual acumulada
 	 * @param value comision a asignar
 	 */
-	public void setComision(double value) {		// WMC +1
+	public void setComision(double value) {		
 		this.comision = value;
 	}
 	
@@ -62,7 +62,7 @@ public abstract class Vendedor {
 	 * Retorna el importe total mensual de ventas
 	 * @return importe total de ventas acumuladas
 	 */
-	public double getTotalVentas( ) {		// WMC +1
+	public double getTotalVentas( ) {		
 		return totalVentas;
 	}
 	
@@ -70,7 +70,7 @@ public abstract class Vendedor {
 	 * Asigna valor al total de ventas mensual
 	 * @param value total de ventas a asignar
 	 */
-	public void setTotalVentas(double value) {		// WMC +1
+	public void setTotalVentas(double value) {		
 		totalVentas = value;
 	}
 	
@@ -78,7 +78,7 @@ public abstract class Vendedor {
 	 * Anhade una nueva venta al vendedor
 	 * @param importe de la venta
 	 */
-	public void anhadeVenta(double importe)  {		// WMC +1
+	public void anhadeVenta(double importe)  {		
 		totalVentas += importe;
 	}
 }
