@@ -134,12 +134,10 @@ public class Tienda {
 		for (Vendedor v : lista) {		
 			if (v instanceof VendedorEnPracticas) {		
 				practicas.add(v);
-			} else if (v instanceof VendedorEnPlantilla) {	
-				VendedorEnPlantilla vp = (VendedorEnPlantilla) v;
-				if (vp.tipo().equals(TipoVendedor.Junior))		
-					junior.add(vp);
-				else			
-					senior.add(vp);
+			} else if (v instanceof VendedorEnPlantillaJunior) {			
+					junior.add(v);
+			} else if (v instanceof VendedorEnPlantillaSenior) {		
+					senior.add(v);
 			}
 		}
 
@@ -180,14 +178,10 @@ public class Tienda {
 	}
 	
 	private double calculaComision(Vendedor vendedor, double importe) {
-		if (vendedor instanceof VendedorEnPlantilla) {
-			VendedorEnPlantilla v = (VendedorEnPlantilla) vendedor;
-			switch (v.tipo()) {
-			case Junior:
-				return importe * 0.005;
-			case Senior:
-				return importe * 0.01;
-			}
+		if (vendedor instanceof VendedorEnPlantillaJunior) {
+			return importe * 0.005;
+		}else if (vendedor instanceof VendedorEnPlantillaJunior) {
+			return importe * 0.01;
 		}
 		return 0;
 	}
@@ -205,7 +199,7 @@ public class Tienda {
 			direccion = in.nextLine();
 			in.next();
 			Vendedor ven = null;
-			// lee los vendedores senior
+			// lee los vendedores junior
 			while (in.hasNext() && !in.next().equals("Junior")) { 		
 				String nombre = in.next();
 				in.next();
@@ -216,12 +210,12 @@ public class Tienda {
 				double totalVentas = in.nextDouble();
 				in.next();
 				double totalComision = in.nextDouble();
-				ven = new VendedorEnPlantilla(nombre, idIn, dni, TipoVendedor.Senior);
+				ven = new VendedorEnPlantillaJunior(nombre, idIn, dni);
 				ven.setTotalVentas(totalVentas);
 				ven.setComision(totalComision);
 				lista.add(ven);
 			}
-			// lee los vendedores junior
+			// lee los vendedores en practicas
 			while (in.hasNext() && !in.next().equals("Practicas")) {  	
 				String nombre = in.next();
 				in.next();
@@ -232,7 +226,7 @@ public class Tienda {
 				double totalVentas = in.nextDouble();
 				in.next();
 				double totalComision = in.nextDouble();
-				ven = new VendedorEnPlantilla(nombre, idIn, dni, TipoVendedor.Junior);
+				ven = new VendedorEnPracticas(nombre, idIn, dni);
 				ven.setTotalVentas(totalVentas);
 				ven.setComision(totalComision);
 				lista.add(ven);
@@ -246,7 +240,7 @@ public class Tienda {
 				String dni = in.next();
 				in.next();
 				double totalVentas = in.nextDouble();
-				ven = new VendedorEnPracticas(nombre, idIn, dni);
+				ven = new VendedorEnPlantillaSenior(nombre, idIn, dni);
 				ven.setTotalVentas(totalVentas);
 				lista.add(ven);
 			}
