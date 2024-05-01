@@ -98,12 +98,16 @@ public class GestionComisiones {
 		String dni = lect.leeString("ID Vendedor");
 		double importe = lect.leeDouble("Importe");
 		try {
-			if (!tienda.anhadeVenta(dni, importe)) {
-				mensaje("ERROR", "El vendedor no existe");
-			}
-		}catch (DataAccessException e) {
-			mensaje("ERROR", "No se pudo guardar el cambio");
-		}
+			Vendedor vendedor = tienda.buscaVendedor(dni);
+	        if (vendedor != null) {
+	            vendedor.anhadeVenta(importe);
+	            mensaje("INFO", "Venta añadida correctamente");
+	        } else {
+	            mensaje("ERROR", "El vendedor no existe");
+	        }
+	    } catch (DataAccessException e) {
+	        mensaje("ERROR", "No se pudo guardar el cambio");
+	    }
 	}
 
 	/**

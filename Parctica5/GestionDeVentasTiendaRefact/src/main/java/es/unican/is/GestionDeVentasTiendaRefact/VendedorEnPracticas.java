@@ -12,10 +12,7 @@ public class VendedorEnPracticas extends Vendedor {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {		
-		if (!(obj instanceof VendedorEnPracticas)) 	
-			return false;
-		VendedorEnPracticas v = (VendedorEnPracticas) obj;
-		return (v.getId().equals(getId()) && v.getDNI().equals(getDNI()));
+	public void anhadeVenta(double importe) {
+	    setTotalVentas(getTotalVentas() + importe);
 	}
 }

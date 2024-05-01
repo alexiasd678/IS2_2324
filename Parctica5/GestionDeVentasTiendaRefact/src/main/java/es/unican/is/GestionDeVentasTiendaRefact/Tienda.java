@@ -78,24 +78,6 @@ public class Tienda {
 	}
 
 	/**
-	 * Anhade una venta a un vendedor
-	 * @param id      Id del vendedor
-	 * @param importe Importe de la venta
-	 * @return true si se anhade la venta false si no se encuentra el vendedor
-	 */
-	public boolean anhadeVenta(String id, double importe) throws DataAccessException {	
-		Vendedor v = buscaVendedor(id);
-		if (v == null) {	
-			return false;
-		}
-		double comision = calculaComision(v, importe);
-		v.anhadeVenta(importe);
-		v.setComision(v.getComision()+comision);
-		vuelcaDatos();
-		return true;
-	}
-
-	/**
 	 * Retorna el vendedor con el id indicado
 	 * 
 	 * @param id Id del vendedor
@@ -127,47 +109,13 @@ public class Tienda {
 	 */
 	private void vuelcaDatos() throws DataAccessException {  	
 		PrintWriter out = null;
-		List<Vendedor> senior = new LinkedList<Vendedor>();
-		List<Vendedor> junior = new LinkedList<Vendedor>();
-		List<Vendedor> practicas = new LinkedList<Vendedor>();
-
-		for (Vendedor v : lista) {		
-			if (v instanceof VendedorEnPracticas) {		
-				practicas.add(v);
-			} else if (v instanceof VendedorEnPlantillaJunior) {			
-					junior.add(v);
-			} else if (v instanceof VendedorEnPlantillaSenior) {		
-					senior.add(v);
-			}
-		}
-
+		
 		try {
 
 			out = new PrintWriter(new FileWriter(datos));
-
-			out.println(nombre);
-			out.println(direccion);
-			out.println();
-			out.println("Senior");
-			for (Vendedor v : senior) {		
-				VendedorEnPlantilla v1 = (VendedorEnPlantilla) v;
-				out.println("  Nombre: " + v1.getNombre() + " Id: " + v1.getId() + " DNI: " + v1.getDNI()
-						+ " TotalVentasMes: " + v1.getTotalVentas() + " TotalComision: "+ v1.getComision());
-			}
-			out.println();
-			out.println("Junior");
-			for (Vendedor v : junior) {		
-				VendedorEnPlantilla v2 = (VendedorEnPlantilla) v;
-				out.println("  Nombre: " + v2.getNombre() + " Id: " + v2.getId() + " DNI: " + v2.getDNI()
-						+ " TotalVentasMes: " + v2.getTotalVentas() + " TotalComision: "+ v2.getComision());
-			}
-			out.println();
-			out.println("Practicas");
-			for (Vendedor v : practicas) {			
-				VendedorEnPracticas v3 = (VendedorEnPracticas) v;
-				out.println("  Nombre: " + v3.getNombre() + " Id: " + v3.getId() + " DNI: " + v3.getDNI()
-						+ " TotalVentasMes: " + v3.getTotalVentas());
-			}
+			escribirInformacionBasica(out);
+			escribirVendedores(out);
+			
 		} catch (IOException e) {		
 			throw new DataAccessException();
 
@@ -177,13 +125,45 @@ public class Tienda {
 		}
 	}
 	
-	private double calculaComision(Vendedor vendedor, double importe) {
-		if (vendedor instanceof VendedorEnPlantillaJunior) {
-			return importe * 0.005;
-		}else if (vendedor instanceof VendedorEnPlantillaJunior) {
-			return importe * 0.01;
-		}
-		return 0;
+	private void escribirInformacionBasica(PrintWriter out) {
+	    out.println(nombre);
+	    out.println(direccion);
+	    out.println();
+	}
+	
+	private void escribirVendedores(PrintWriter out) {
+	    List<Vendedor> senior = new LinkedList<Vendedor>();
+	    List<Vendedor> junior = new LinkedList<Vendedor>();
+	    List<Vendedor> practicas = new LinkedList<Vendedor>();
+
+	    for (Vendedor v : lista) {
+	        if (v instanceof VendedorEnPracticas) {
+	            practicas.add(v);
+	        } else if (v instanceof VendedorEnPlantillaJunior) {
+	            junior.add(v);
+	        } else if (v instanceof VendedorEnPlantillaSenior) {
+	            senior.add(v);
+	        }
+	    }
+
+	    escribirVendedoresPorTipo(out, "Senior", senior);
+	    escribirVendedoresPorTipo(out, "Junior", junior);
+	    escribirVendedoresPorTipo(out, "Practicas", practicas);
+	}
+	
+	private void escribirVendedoresPorTipo(PrintWriter out, String tipo, List<Vendedor> vendedores) {
+	    out.println(tipo);
+	    for (Vendedor v : vendedores) {
+	        if (v instanceof VendedorEnPlantilla) {
+	            VendedorEnPlantilla v1 = (VendedorEnPlantilla) v;
+	            out.println("  Nombre: " + v1.getNombre() + " Id: " + v1.getId() + " DNI: " + v1.getDNI()
+	                    + " TotalVentasMes: " + v1.getTotalVentas() + " TotalComision: "+ v1.getComision());
+	        } else if (v instanceof VendedorEnPracticas) {
+	            VendedorEnPracticas v1 = (VendedorEnPracticas) v;
+	            out.println("  Nombre: " + v1.getNombre() + " Id: " + v1.getId() + " DNI: " + v1.getDNI()
+	                    + " TotalVentasMes: " + v1.getTotalVentas());
+	        }
+	    }
 	}
 	
 	private void cargaDatos() throws DataAccessException {
@@ -215,8 +195,8 @@ public class Tienda {
 				ven.setComision(totalComision);
 				lista.add(ven);
 			}
-			// lee los vendedores en practicas
-			while (in.hasNext() && !in.next().equals("Practicas")) {  	
+			// lee los vendedores senior
+			while (in.hasNext() && !in.next().equals("Senior")) {  	
 				String nombre = in.next();
 				in.next();
 				String idIn = in.next();
@@ -226,7 +206,7 @@ public class Tienda {
 				double totalVentas = in.nextDouble();
 				in.next();
 				double totalComision = in.nextDouble();
-				ven = new VendedorEnPracticas(nombre, idIn, dni);
+				ven = new VendedorEnPlantillaSenior(nombre, idIn, dni);
 				ven.setTotalVentas(totalVentas);
 				ven.setComision(totalComision);
 				lista.add(ven);
@@ -240,7 +220,7 @@ public class Tienda {
 				String dni = in.next();
 				in.next();
 				double totalVentas = in.nextDouble();
-				ven = new VendedorEnPlantillaSenior(nombre, idIn, dni);
+				ven = new VendedorEnPracticas(nombre, idIn, dni);
 				ven.setTotalVentas(totalVentas);
 				lista.add(ven);
 			}

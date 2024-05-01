@@ -1,5 +1,5 @@
 package es.unican.is.GestionDeVentasTiendaRefact;
-public class VendedorEnPlantilla extends Vendedor {
+public abstract class VendedorEnPlantilla extends Vendedor {
 	
 	/**
 	 * Retorna un nuevo vendedor en plantilla del tipo que se indica
@@ -11,11 +11,11 @@ public class VendedorEnPlantilla extends Vendedor {
 		super(nombre, id, dni);
 	}
 	
+	public abstract double calcularComision(double importe);
+	
 	@Override
-	public boolean equals(Object obj) {		// WMC +1
-		if (!(obj instanceof VendedorEnPlantilla)) 		// WMC +1 // CCog +1
-			return false;
-		VendedorEnPlantilla v = (VendedorEnPlantilla) obj;
-		return (v.getId().equals(getId()) && v.getDNI().equals(getDNI()));
+	public void anhadeVenta(double importe) {
+	    setTotalVentas(getTotalVentas() + importe);
+	    setComision(getComision() + calcularComision(importe));
 	}
 }

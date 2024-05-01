@@ -32,37 +32,37 @@ public class VendedorEnPracticasTest {
 	@Test
 	public void testSetT() {
 		sut.setTotalVentas(100);
-		assertTrue(sut.getTotalVentas()==100.0);
+		assertEquals(100.0, sut.getTotalVentas());
 		
 		sut.setTotalVentas(230);
-		assertTrue(sut.getTotalVentas()==230.0);
+		assertEquals(230.0, sut.getTotalVentas());
 		
 		sut.setTotalVentas(0);
-		assertTrue(sut.getTotalVentas()==0.0);
+		assertEquals(0.0, sut.getTotalVentas());
 	}
 	
 	@Test
 	public void testSetC() {
 		sut.setComision(100);
-		assertTrue(sut.getComision()==100.0);
+		assertEquals(100.0, sut.getComision());
 		
 		sut.setComision(230);
-		assertTrue(sut.getComision()==230.0);
+		assertEquals(230.0, sut.getComision());
 		
 		sut.setComision(0);
-		assertTrue(sut.getComision()==0.0);
+		assertEquals(0.0, sut.getComision());
 	}
 
 	@Test
 	public void testAnhadeVenta() {
 		sut.anhadeVenta(200);
-		assertTrue(sut.getTotalVentas() == 200.0);
+		assertEquals(200.0, sut.getTotalVentas());
 		
 		sut.anhadeVenta(300);
-		assertTrue(sut.getTotalVentas() == 500.0);	
+		assertEquals(500.0, sut.getTotalVentas());	
 		
 		sut.anhadeVenta(0);
-		assertTrue(sut.getTotalVentas() == 500.0);
+		assertEquals(500.0, sut.getTotalVentas());
 		
 	}
 	
@@ -75,6 +75,10 @@ public class VendedorEnPracticasTest {
 		assertTrue(sut.equals(igual));
 		assertFalse(sut.equals(distintoId));
 		assertFalse(sut.equals(distintoNombre));
+		
+		assertFalse(sut.equals(null));
+		assertFalse(sut.equals("No soy un Vendedor"));
+		assertTrue(sut.equals(sut));
 		
 		assertFalse(sut.equals(new Object()));
 	}

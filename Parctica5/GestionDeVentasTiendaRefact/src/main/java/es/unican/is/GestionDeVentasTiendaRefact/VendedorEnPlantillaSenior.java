@@ -5,7 +5,8 @@ public class VendedorEnPlantillaSenior extends VendedorEnPlantilla{
 		super(nombre, id, dni);
 	}
 
-	public double calcularComisionSenior(double importe) {
+	@Override
+	public double calcularComision(double importe) {
         return importe * 0.01;
     }
 }

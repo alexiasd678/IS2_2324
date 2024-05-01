@@ -78,7 +78,17 @@ public abstract class Vendedor {
 	 * Anhade una nueva venta al vendedor
 	 * @param importe de la venta
 	 */
-	public void anhadeVenta(double importe)  {		
-		totalVentas += importe;
-	}
+	public abstract void anhadeVenta(double importe);
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj) {  // Comprueba si es la misma instancia
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {  // Comprueba si los tipos son diferentes
+            return false;
+        }
+        Vendedor other = (Vendedor) obj; // Conversión segura ya que se ha comprobado el tipo
+        return id.equals(other.id) && dni.equals(other.dni);
+    }
 }

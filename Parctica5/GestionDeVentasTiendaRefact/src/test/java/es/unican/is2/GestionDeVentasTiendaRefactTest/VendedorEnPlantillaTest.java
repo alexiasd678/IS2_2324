@@ -109,6 +109,12 @@ public class VendedorEnPlantillaTest {
 		assertFalse(sutJunior.equals(distintoIdJunior));
 		assertFalse(sutJunior.equals(distintoDNIJunior));
 		
+		assertFalse(sutJunior.equals(null));
+		assertFalse(sutJunior.equals("No soy un Vendedor"));
+		assertTrue(sutJunior.equals(sutJunior));
+
+		
+		assertFalse(sutJunior.equals(new Object()));
 		
 		VendedorEnPlantilla igualSenior = new VendedorEnPlantillaSenior("Pepe", "2", "222222222A");
 		VendedorEnPlantilla distintoIdSenior = new VendedorEnPlantillaSenior("Pepe", "3", "222222222A");
@@ -117,6 +123,11 @@ public class VendedorEnPlantillaTest {
 		assertTrue(sutSenior.equals(igualSenior));
 		assertFalse(sutSenior.equals(distintoIdSenior));
 		assertFalse(sutSenior.equals(distintoDNISenior));
+		
+		assertFalse(sutSenior.equals(null));
+		assertFalse(sutSenior.equals("No soy un Vendedor"));
+		assertTrue(sutSenior.equals(sutSenior));
+
 		
 		assertFalse(sutSenior.equals(new Object()));
 	}
