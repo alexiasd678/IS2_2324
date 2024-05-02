@@ -11,10 +11,10 @@ public abstract class VendedorEnPlantilla extends Vendedor {
 		super(nombre, id, dni);
 	}
 	
-	public abstract double calcularComision(double importe);
+	public abstract double calcularComision(double importe);	// WMC +1
 	
 	@Override
-	public void anhadeVenta(double importe) {
+	public void anhadeVenta(double importe) {		// WMC +1
 	    setTotalVentas(getTotalVentas() + importe);
 	    setComision(getComision() + calcularComision(importe));
 	}
